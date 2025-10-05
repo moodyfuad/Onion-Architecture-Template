@@ -1,4 +1,5 @@
 ﻿using Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,15 +21,12 @@ namespace Persistant.Repositories
 
         public RepositoryManager(RepositoryDbContext dbContext)
         {
-            this._dbContext = dbContext;
-            _lazyPersonRepository = new Lazy<IPersonRepository>(() => new PersonRepository(_dbContext));
-            _lazyUnitOfWork = new Lazy<IUnitOfWork>(() => new UnitOfWork(_dbContext));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _lazyPersonRepository ??= new Lazy<IPersonRepository>(() => new PersonRepository(_dbContext));
+            _lazyUnitOfWork ??= new Lazy<IUnitOfWork>(() => new UnitOfWork(_dbContext));
         }
 
 
-        public async Task SaveAsync(CancellationToken cancellationToken = default)
-        {
-            await UnitOfWork.SaveChangesAsync(cancellationToken);
-        }
+    
     }
 }

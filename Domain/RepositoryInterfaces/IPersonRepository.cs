@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.RepositoryInterfaces
 {
-    public interface IPersonRepository
+    public interface IPersonRepository : IBaseRepository<Person>
     {
         Task<IEnumerable<Person>> GetAllAsync(CancellationToken cancellationToken = default);
         Task<Person> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);

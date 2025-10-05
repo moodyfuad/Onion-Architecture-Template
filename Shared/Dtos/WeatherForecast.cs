@@ -1,4 +1,4 @@
-namespace Shared
+namespace API.Dtos
 {
     public class WeatherForecast
     {

@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions
 {
-    public abstract class BadRequestException(string? message) : Exception(message)
+    public class BadRequestException : ApiException
     {
+        public BadRequestException(string message = "Bad Request Exception", object? errors = null) : base(message,400,errors)
+        {
+        }
     }
+
 }

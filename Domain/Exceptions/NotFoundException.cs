@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions
 {
-    public abstract class NotFoundException(string? message) : Exception(message)
+    public class NotFoundException : ApiException
     {
+        public NotFoundException(string message = "The requested resource was not found.")
+            : base(message, statusCode: 404) { }
     }
 }

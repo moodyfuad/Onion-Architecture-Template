@@ -2,8 +2,9 @@
 using Domain.Exceptions;
 using Domain.RepositoryInterfaces;
 using Service.Abstraction;
-using Shared;
+using API.Dtos;
 using System.Threading.Tasks;
+using Shared.Helpers;
 
 namespace Services
 {
@@ -20,13 +21,14 @@ namespace Services
         {
             Person person = new ()
             {
-                Id = personDto.Id,
+                
                Name = personDto.Name,
                 
             };
-            await repositoryManager.PersonRepository.AddPersonAsync(person);
-            await repositoryManager.SaveAsync(cancellationToken);
-            return personDto;
+            await repositoryManager.PersonRepository.AddAsync(person,cancellationToken);
+            await repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
+            person = await repositoryManager.PersonRepository.GetByIdAsync(person.Id);
+            return new PersonDto() {Id = person.Id,Name=person.Name };
         }
 
         public async Task DeletePerson(Guid id, CancellationToken cancellationToken = default)
@@ -50,14 +52,12 @@ namespace Services
             };
         }
 
-        public async Task<IEnumerable<PersonDto>> GetPersons(CancellationToken cancellationToken = default)
+        public async Task<PagedList<PersonDto>> GetPersons(int pageNumber, int pageSize, CancellationToken cancellationToken = default)
         {
-            return (await repositoryManager.PersonRepository.GetAllAsync(cancellationToken)).Select(person => new PersonDto
-            {
-                Id = person.Id,
-                Name = person.Name,
+            var result = (await repositoryManager.PersonRepository.GetPagedAsync(pageNumber, pageSize, ct: cancellationToken));
                 
-            });
+             return result.Map((p)=> new PersonDto() { Id = p.Id, Name = p.Name });
+            
         }
 
         public async Task<PersonDto> UpdatePerson(Guid id, PersonDto personDto, CancellationToken cancellationToken = default)

@@ -10,11 +10,12 @@ using System.Threading.Tasks;
 
 namespace Persistant.Repositories
 {
-    internal sealed class PersonRepository : IPersonRepository
+    internal sealed class PersonRepository : BaseRepository<Person>, IPersonRepository
     {
         private readonly RepositoryDbContext _dbContext;
+        private readonly RepositoryDbContext _dbSet;
 
-        public PersonRepository(RepositoryDbContext dbContext)
+        public PersonRepository(RepositoryDbContext dbContext) : base(dbContext) 
         {
             _dbContext = dbContext;
         }

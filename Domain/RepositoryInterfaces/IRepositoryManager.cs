@@ -8,8 +8,7 @@ namespace Domain.RepositoryInterfaces
 {
     public interface IRepositoryManager
     {
-        IPersonRepository PersonRepository { get;  }
         IUnitOfWork UnitOfWork { get; }
-        Task SaveAsync(CancellationToken cancellationToken);
+        IPersonRepository PersonRepository { get;  }
     }
 }

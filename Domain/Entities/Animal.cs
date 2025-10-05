@@ -1,15 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Domain.Entities
-{
-    public class Animal
+{    public class Animal : BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
         public string Name { get; set; }
 
         [JsonIgnore]
-        public ICollection<Person> Owners { get; set; } = new List<Person>();
+        public virtual ICollection<Person> Owners { get; set; } = [];
     }
 }
