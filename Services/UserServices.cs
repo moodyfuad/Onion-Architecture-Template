@@ -18,9 +18,10 @@ namespace Services
         }
 
 
-        public Task<bool> RegisterAsync(string email, string password, string name)
+        public async Task<bool> RegisterAsync(string email, string password, string name)
         {
-            _repos.UserRepository.RegisterAsync(email, password, name);
+            var result = await _repos.UserRepository.RegisterAsync(email, password, name);
+            return result;
         }
     }
 }
