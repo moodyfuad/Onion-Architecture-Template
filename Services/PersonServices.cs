@@ -1,10 +1,10 @@
 ﻿using Domain.Entities;
-using Domain.Exceptions;
 using Domain.RepositoryInterfaces;
 using Service.Abstraction;
 using API.Dtos;
 using System.Threading.Tasks;
 using Shared.Helpers;
+using Shared.Exceptions;
 
 namespace Services
 {

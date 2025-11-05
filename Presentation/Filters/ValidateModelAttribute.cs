@@ -1,7 +1,7 @@
-﻿using Domain.Exceptions;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
+using Shared.Exceptions;
 
-namespace API.Filters
+namespace Presentation.Filters
 {
     public class ValidateModelAttribute : ActionFilterAttribute
     {

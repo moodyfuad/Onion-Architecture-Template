@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
-using Domain.Exceptions;
 using Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
+using Shared.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +13,12 @@ namespace Persistant.Repositories
     internal sealed class PersonRepository : BaseRepository<Person>, IPersonRepository
     {
         private readonly RepositoryDbContext _dbContext;
-        private readonly RepositoryDbContext _dbSet;
+        private  DbSet<Person> _dbSet { get => base._dbSet; }
 
         public PersonRepository(RepositoryDbContext dbContext) : base(dbContext) 
         {
             _dbContext = dbContext;
+            //this._dbSet = base._dbSet;
         }
         public async Task AddPersonAsync(Person person, CancellationToken cancellationToken = default)
         {

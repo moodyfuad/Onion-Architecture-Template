@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Shared.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.Helpers
+namespace Presentation.Responses
 {
     public class PaginationHeader
     {

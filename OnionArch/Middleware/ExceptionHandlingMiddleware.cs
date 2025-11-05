@@ -1,5 +1,5 @@
-﻿using Domain.Exceptions;
-using Shared.Helpers;
+﻿using Presentation.Responses;
+using Shared.Exceptions;
 using System.Diagnostics;
 using System.Text.Json;
 
@@ -50,14 +50,15 @@ namespace API.Middleware
             {
                 statusCode = StatusCodes.Status401Unauthorized;
                 title = exception.Message;
+                
             }
             else
             {
+                //Log exception with trace id and request path
+                _logger.LogError(exception, "Unhandled exception (TraceId: {TraceId}) at {Path}", traceId, context.Request?.Path.Value);
                 
             }
 
-            // Log exception with trace id and request path
-            //_logger.LogError(exception, "Unhandled exception (TraceId: {TraceId}) at {Path}", traceId, context.Request?.Path.Value);
 
             context.Response.StatusCode = statusCode;
             context.Response.ContentType = "application/json";

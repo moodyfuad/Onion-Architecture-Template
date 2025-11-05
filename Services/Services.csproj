@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Service.Abstraction\Service.Abstraction.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Mappings\UserMappings\" />
+  </ItemGroup>
+
 </Project>

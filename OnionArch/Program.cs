@@ -1,22 +1,17 @@
 using API.Extensions;
-using API.Filters;
-using Domain.RepositoryInterfaces;
-using Microsoft.EntityFrameworkCore;
-using Persistant;
-using Persistant.Repositories;
-using Service.Abstraction;
-using Services;
+using Presentation.Filters;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// register the the DI and database registration.
 builder.Services.AddDataAccess(builder.Configuration);
+
+// register the api filters and reference the presntation layer to use the controllers.
 builder.Services.AddControllers(
     options => { options.Filters.Add<ValidateModelAttribute>(); }
     ).AddApplicationPart(typeof(Presentation.AssemplyReference).Assembly);
@@ -34,6 +29,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     //app.UseDeveloperExceptionPage();
 }
+// call to use the custom Global Exception Handler Middleware
 app.UseGlobalExceptionHandler();
 
 app.UseHttpsRedirection();

@@ -28,15 +28,19 @@ namespace Persistant.Repositories
              await _dbSet.FindAsync(new object[] { id }, ct).ConfigureAwait(false);
 
         public async Task<IEnumerable<T>> GetAllAsync(bool trackChanges = false, CancellationToken ct = default) =>
-            trackChanges ? await _dbSet.AsTracking().ToListAsync(ct).ConfigureAwait(false) : await _dbSet.AsNoTracking().ToListAsync(ct).ConfigureAwait(false);
+            trackChanges ?
+            await _dbSet.AsTracking().ToListAsync(ct).ConfigureAwait(false) :
+            await _dbSet.AsNoTracking().ToListAsync(ct).ConfigureAwait(false);
 
         public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate, bool trackChanges = false, CancellationToken ct = default) =>
-             trackChanges ? await _dbSet.AsTracking().Where(predicate).ToListAsync(ct).ConfigureAwait(false)
-             : await _dbSet.AsNoTracking().Where(predicate).ToListAsync(ct).ConfigureAwait(false);
+             trackChanges ?
+                await _dbSet.AsTracking().Where(predicate).ToListAsync(ct).ConfigureAwait(false)
+              : await _dbSet.AsNoTracking().Where(predicate).ToListAsync(ct).ConfigureAwait(false);
 
         public async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, bool trackChanges = false, CancellationToken ct = default) =>
-            trackChanges ? await _dbSet.AsTracking().FirstOrDefaultAsync(predicate, ct).ConfigureAwait(false)
-            : await _dbSet.AsNoTracking().FirstOrDefaultAsync(predicate, ct).ConfigureAwait(false);
+            trackChanges ?
+                await _dbSet.AsTracking().FirstOrDefaultAsync(predicate, ct).ConfigureAwait(false)
+              : await _dbSet.AsNoTracking().FirstOrDefaultAsync(predicate, ct).ConfigureAwait(false);
 
         public async Task<PagedList<T>> GetPagedAsync(
             int pageNumber,
@@ -47,12 +51,19 @@ namespace Persistant.Repositories
         {
             if (pageNumber <= 0) pageNumber = 1;
             if (pageSize <= 0) pageSize = 10;
-
+            
+            
             IQueryable<T> query = _dbSet.AsQueryable();
 
-            if (predicate != null) query = query.Where(predicate);
-            if (orderBy != null) query = orderBy(query);
 
+            if (predicate != null) query = query.Where(predicate);
+            if (orderBy != null) {
+                query = orderBy(query);
+            }
+            else
+            {
+                query = query.OrderBy((o) => o.Id);
+            }
             return await PagedList<T>.CreateAsync(query, pageNumber, pageSize, ct).ConfigureAwait(false);
         }
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.Helpers
+namespace Presentation.Responses
 {
     /// <summary>
     /// Generic API response wrapper used for all successful/failed responses.
@@ -28,7 +28,7 @@ namespace Shared.Helpers
             Timestamp = DateTime.UtcNow;
         }
 
-        public static ApiResponse<T> Success(T? data, string? message = null)
+        public static ApiResponse<T> Success(T? data = default, string? message = null)
             => new ApiResponse<T>(data, success: true, message: message);
 
         public static ApiResponse<T> Fail(string? message = null, object? errors = null)

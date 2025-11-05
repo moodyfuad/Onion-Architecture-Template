@@ -1,5 +1,8 @@
 ﻿using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Persistant.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Persistant
 {
-    public sealed class RepositoryDbContext : DbContext
+    public sealed class RepositoryDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
 
         public RepositoryDbContext(DbContextOptions options) : base(options)
