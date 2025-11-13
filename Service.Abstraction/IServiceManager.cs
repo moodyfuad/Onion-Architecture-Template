@@ -8,6 +8,7 @@ namespace Service.Abstraction
 {
     public interface IServiceManager
     {
+        IAuth Auth{ get; }
         IPersonServices PersonServices { get; }
     }
 }

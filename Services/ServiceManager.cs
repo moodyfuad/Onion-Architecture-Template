@@ -1,5 +1,6 @@
 ﻿using Domain.RepositoryInterfaces;
 using Service.Abstraction;
+using Services.JwtServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,13 @@ namespace Services
     {
         private readonly Lazy<IPersonServices> _lazyPersonServices;
         public IPersonServices PersonServices => _lazyPersonServices.Value;
+        public Lazy<IAuth> _lazyAuth;
 
-        public ServiceManager(IRepositoryManager repositoryManager)
+        public IAuth Auth => _lazyAuth.Value;
+
+        public ServiceManager(IRepositoryManager repositoryManager, JwtHander jwtHander)
         {
+            _lazyAuth = new Lazy<IAuth>(() => new Auth(repositoryManager, jwtHander));
             _lazyPersonServices = new Lazy<IPersonServices>(() => new PersonServices(repositoryManager));
         }
     }

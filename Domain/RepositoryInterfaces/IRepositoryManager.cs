@@ -10,6 +10,6 @@ namespace Domain.RepositoryInterfaces
     {
         IUnitOfWork UnitOfWork { get; }
         IPersonRepository PersonRepository { get;  }
-        IUserRepository UserRepository { get;  }
+        IAppUserRepository AppUserRepository { get;  }
     }
 }

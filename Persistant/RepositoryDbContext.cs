@@ -12,9 +12,16 @@ using System.Threading.Tasks;
 
 namespace Persistant
 {
-    public sealed class RepositoryDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
+    public sealed class RepositoryDbContext : IdentityDbContext<
+        AppUser,
+        IdentityRole<Guid>,
+        Guid,
+        IdentityUserClaim<Guid>,
+        IdentityUserRole<Guid>,
+        IdentityUserLogin<Guid>,
+        IdentityRoleClaim<Guid>,
+        IdentityUserToken<Guid>>
     {
-
         public RepositoryDbContext(DbContextOptions options) : base(options)
         {
         }
@@ -25,22 +32,10 @@ namespace Persistant
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(RepositoryDbContext).Assembly);
 
-            //modelBuilder.Entity<BaseEntity>().HasKey(e => e.Id);
             modelBuilder.Entity<BaseEntity>().UseTpcMappingStrategy();
-            //modelBuilder.Entity<Person>();
-            //modelBuilder.Entity<Animal>();
 
-                //Apply global filter for soft deletes to all BaseEntity - derived types
-                //foreach (var entityType in modelBuilder.Model.GetEntityTypes()
-                //         .Where(t => typeof(BaseEntity).IsAssignableFrom(t.ClrType) && !t.IsAbstract()))
-                //{
-
-                //    var parameter = Expression.Parameter(entityType.ClrType, "e");
-                //    var prop = Expression.PropertyOrField(parameter, nameof(BaseEntity.IsDeleted));
-                //    var notDeleted = Expression.Lambda(Expression.Equal(prop, Expression.Constant(false)), parameter);
-                //    modelBuilder.Entity(entityType.ClrType).HasQueryFilter(notDeleted);
-                //}
-            // Add indexes, constraints, seed data etc. here as needed
+            base.OnModelCreating(modelBuilder);
+           
         }
     }
 }
